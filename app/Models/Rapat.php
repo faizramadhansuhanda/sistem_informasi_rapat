@@ -18,7 +18,7 @@ class Rapat extends Model
         'pimpinan_rapat',
         'fasilitas',
     ];
-    protected $appends = ['status_rapat'];
+    protected $appends = ['status_rapat', 'status_sort'];
 
     /**
      * RELASI KE RUANGAN
@@ -43,5 +43,21 @@ class Rapat extends Model
         }
 
         return 'Selesai';
+    }
+    public function getStatusSortAttribute()
+    {
+        $now = Carbon::now();
+        $mulai = Carbon::parse($this->tanggal_rapat.' '.$this->jam_mulai);
+        $selesai = Carbon::parse($this->tanggal_rapat.' '.$this->jam_selesai);
+
+        if ($now->between($mulai, $selesai)) {
+            return 1;
+        }
+
+        if ($now->lt($mulai)) {
+            return 2;
+        }
+
+        return 3;
     }
 }
