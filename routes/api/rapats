@@ -1,0 +1,12 @@
+<?php
+// routes/api.php
+
+use App\Http\Controllers\RapatController;
+
+Route::middleware('auth:api')->get('/rapats', [RapatController::class, 'index']);  // API untuk mendapatkan data rapat
+
+
+Route::middleware('auth:api')->get('/rapats', [RapatController::class, 'index']);
+Route::middleware('auth:api')->post('/rapats', [RapatController::class, 'store']);
+Route::middleware('auth:api')->put('/rapats/{rapat}', [RapatController::class, 'update']);
+Route::middleware('auth:api')->delete('/rapats/{rapat}', [RapatController::class, 'destroy']);

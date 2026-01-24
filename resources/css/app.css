@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* STYLE FORM INPUT */
+.input {
+    @apply w-full border p-2 rounded;
+}
