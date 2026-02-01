@@ -72,6 +72,7 @@ const getStatusMeta = (rapat) => {
 };
 
 export default function Rapat({ rapats, ruangans }) {
+    const formRef = React.useRef(null);
     const { data, setData, post, put, errors, setError, clearErrors } = useForm({
         topik_rapat: "",
         ruangan_id: "",
@@ -82,12 +83,16 @@ export default function Rapat({ rapats, ruangans }) {
         fasilitas: "",
     });
 
-        const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [formNotice, setFormNotice] = useState("");
     const [sortMode, setSortMode] = useState("upcoming");
 
     const selectedRuangan = data.ruangan_id;
+    const selectedRuanganDetail = useMemo(() => {
+        if (!selectedRuangan) return null;
+        return ruangans.find((ruangan) => String(ruangan.id) === String(selectedRuangan)) ?? null;
+    }, [ruangans, selectedRuangan]);
     const selectedTanggal = data.tanggal_rapat;
 
     const isSlotBooked = (slot) => {
@@ -352,6 +357,15 @@ const editRapat = (rapat) => {
                                         </option>
                                     ))}
                                 </select>
+                                {selectedRuanganDetail ? (
+                                    <p className="mt-2 text-xs font-semibold text-gray-600">
+                                        {selectedRuanganDetail.nama_ruangan} • Kapasitas {selectedRuanganDetail.kapasitas} orang
+                                    </p>
+                                ) : (
+                                    <p className="mt-2 text-xs text-gray-400">
+                                        Kapasitas ruangan akan tampil di sini.
+                                    </p>
+                                )}
                                 {errors.ruangan_id ? (
                                     <p className="mt-1 text-xs text-red-600">
                                         {errors.ruangan_id}

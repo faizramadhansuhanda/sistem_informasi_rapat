@@ -2,10 +2,17 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\UserRapatController;
 use App\Http\Controllers\RapatController;
+use App\Http\Controllers\LaporanController;
+
+Route::get('/', [UserRapatController::class, 'index'])->name('home');
+Route::get('/jadwal-user', [UserRapatController::class, 'index'])->name('user.jadwal');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
     Route::resource('/ruangan', RuanganController::class);
     Route::resource('/rapat', RapatController::class);
     Route::post('/rapat', [RapatController::class, 'store']);

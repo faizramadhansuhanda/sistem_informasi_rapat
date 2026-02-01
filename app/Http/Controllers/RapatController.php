@@ -34,12 +34,8 @@ class RapatController extends Controller
       $bentrok = Rapat::where('ruangan_id', $request->ruangan_id)
         ->where('tanggal_rapat', $request->tanggal_rapat)
         ->where(function ($q) use ($request) {
-            $q->whereBetween('jam_mulai', [$request->jam_mulai, $request->jam_selesai])
-            ->orWhereBetween('jam_selesai', [$request->jam_mulai, $request->jam_selesai])
-            ->orWhere(function ($q2) use ($request) {
-                $q2->where('jam_mulai', '<', $request->jam_mulai)
-                    ->where('jam_selesai', '>', $request->jam_selesai);
-            });
+           $q->where('jam_mulai', '<', $request->jam_selesai)
+                ->where('jam_selesai', '>', $request->jam_mulai);
         })
         ->first();
 

@@ -20,12 +20,13 @@ class RuanganController extends Controller
         $request->validate([
             'nama_ruangan' => 'required|string',
             'kapasitas' => 'required|integer|min:1',
+            'status_ruangan' => 'nullable|in:aktif,tidak aktif',
         ]);
 
         Ruangan::create([
             'nama_ruangan' => $request->nama_ruangan,
             'kapasitas' => $request->kapasitas,
-            'status_ruangan' => 'aktif',
+            'status_ruangan' => $request->status_ruangan ?? 'aktif',
         ]);
 
         return back();
@@ -40,6 +41,12 @@ class RuanganController extends Controller
         ]);
 
         $ruangan->update($request->all());
+        return back();
+    }
+
+    public function destroy(Ruangan $ruangan)
+    {
+        $ruangan->delete();
         return back();
     }
 
